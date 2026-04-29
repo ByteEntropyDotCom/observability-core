@@ -68,6 +68,50 @@ The included GitHub Action performs:
 
 ---
 
+## 1. How to Test (The Final Verification)
+To prove your code works, you must verify the "Three Pillars" are live.
+
+### Pillar 1: Metrics (Prometheus)
+
+``` Run docker-compose up -d.
+
+Start the app: mvn spring-boot:run.
+
+Open http://localhost:8083/actuator/prometheus.
+
+````
+
+Pass Criteria: You see raw text data like http_server_requests_seconds_count.
+
+### Pillar 2: Tracing (Zipkin)
+
+```
+Hit any endpoint (e.g., http://localhost:8083/actuator/health).
+
+Open Zipkin at http://localhost:9411.
+
+Click "Run Query".
+
+Pass Criteria: You see a visual timeline showing exactly how long that health check took.
+```
+
+### Pillar 3: Log Correlation
+
+```Check your terminal/IDE logs.```
+
+Pass Criteria: Every log line should look like this: INFO [observability-core, abc-123-trace, xyz-456-span].
+
+## 2. Who is this for? (The "Why")
+
+* Someone uses this project to save time and reduce downtime.
+
+* For Developers: Instead of spending a week configuring tracing and logging for every new microservice, they just import your project. It’s like a "Power Strip"—they just plug their code in, and it gets "telemetry power" automatically.
+
+* For SREs (Site Reliability Engineers): When the system crashes at 2 AM, they use the Trace ID from your headers to see exactly which service failed in the chain.
+
+
+---
+
 ## How a Developer Integrates It
 
 If they already have an existing service, they would use your project like this:
